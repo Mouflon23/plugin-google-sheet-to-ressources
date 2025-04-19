@@ -54,24 +54,37 @@ public partial class Conversion : Node
                 int i = 0;
                 foreach (string[] header in headers)
                 {
-                    //chara.header = r[i];
+                    if (r[i] == "true" || r[i] == "false")
+                    {
+                        // chara.header = r[i].ToLower();
+                    }
+                    if (int.TryParse(r[i], out int value))
+                    {
+                        // chara.header = r[i].ToInt();
+                    }
+                    if (float.TryParse(r[i], out float floatValue))
+                    {
+                        // chara.header = r[i].ToFloat();
+                    }
+                    else
+                    {
+                        // chara.header = r[i]
+                    }
                     i++;
                 }
-                // chara.CharaName = s[0];
-                // chara.Health = s[1].ToInt();
-                // chara.Damage = s[2].ToInt();
-                // ResourceSaver.Save(chara, $"res://Resources/{chara.CharaName}.tres");
+                // ResourceSaver.Save(chara, $"res://Resources/r[0].tres");
             }
             else
             {
                 GD.Print("No Resource Found");
                 GD.Print("Creating Resource...");
-
+                int j = 0;
                 // Chara newChara = new()
                 // {
-                //     CharaName = s[0],
-                //     Health = s[1].ToInt(),
-                //     Damage = s[2].ToInt(),
+                //     // foreach (string[] header in headers)
+                //     // {
+                //     // header = r[i];
+                //     // }
                 // };
                 // ResourceSaver.Save(newChara, $"res://Resources/{newChara.CharaName}.tres");
             }
