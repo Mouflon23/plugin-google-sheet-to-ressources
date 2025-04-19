@@ -11,12 +11,17 @@ config_version=5
 [application]
 
 config/name="Plugin Google Sheet To Ressources"
+run/main_scene="uid://dvuaevc3mhlep"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [dotnet]
 
 project/assembly_name="Plugin Google Sheet To Ressources"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GoogleSheetsGodot/plugin.cfg")
 
 [rendering]
 

@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvuaevc3mhlep"]
+
+[ext_resource type="Script" uid="uid://vgpc20uf16ub" path="res://addons/GoogleSheetsGodot/DockSignal.cs" id="1_h84au"]
+
+[node name="GoogleSheetsGodot" type="Control" node_paths=PackedStringArray("_button", "_checkButton")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 228.0
+offset_bottom = 157.0
+script = ExtResource("1_h84au")
+_button = NodePath("Button")
+_checkButton = NodePath("HBoxContainer/CheckButton")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 14.0
+offset_right = 143.0
+offset_bottom = 86.0
+text = "Convert to Ressources"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 91.0
+offset_right = 193.0
+offset_bottom = 131.0
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Auto-Convert"
+
+[node name="CheckButton" type="CheckButton" parent="HBoxContainer"]
+layout_mode = 2
