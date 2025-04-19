@@ -6,7 +6,7 @@ using Godot;
 [Tool]
 public partial class Conversion : Node
 {
-    private string[] Read()
+    private (string[], string[]) GetCSV()
     {
         string csvDirectory = "res://Resources/CSV";
         using var dir = DirAccess.Open(csvDirectory);
@@ -34,17 +34,57 @@ public partial class Conversion : Node
             GD.PrintErr($"Impossible d'ouvrir le répertoire : {csvDirectory}");
         }
 
-        return filePaths.ToArray();
+        return (filePaths.ToArray(), fileNames.ToArray());
     }
 
-    private void MakeResources(Godot.Collections.Array<string[]> resources) { }
+    private void MakeResources(
+        Godot.Collections.Array<string[]> headers,
+        Godot.Collections.Array<string[]> resources
+    )
+    {
+        foreach (string[] r in resources)
+        {
+            GD.Print($"Searching for res://Resources/{r[0]}.tres");
+            var res = ResourceLoader.Load($"res://Resources/{r[0]}.tres");
+            if (res != null)
+            {
+                GD.Print("Resource Found !");
+
+                // Chara chara = res as Chara;
+                int i = 0;
+                foreach (string[] header in headers)
+                {
+                    //chara.header = r[i];
+                    i++;
+                }
+                // chara.CharaName = s[0];
+                // chara.Health = s[1].ToInt();
+                // chara.Damage = s[2].ToInt();
+                // ResourceSaver.Save(chara, $"res://Resources/{chara.CharaName}.tres");
+            }
+            else
+            {
+                GD.Print("No Resource Found");
+                GD.Print("Creating Resource...");
+
+                // Chara newChara = new()
+                // {
+                //     CharaName = s[0],
+                //     Health = s[1].ToInt(),
+                //     Damage = s[2].ToInt(),
+                // };
+                // ResourceSaver.Save(newChara, $"res://Resources/{newChara.CharaName}.tres");
+            }
+        }
+    }
 
     public void Convert()
     {
-        string[] filePaths = Read();
+        (string[] filePaths, string[] fileNames) = GetCSV();
         foreach (string filePath in filePaths)
         {
-            Godot.Collections.Array<string[]> resources = new();
+            var headers = new Godot.Collections.Array<string[]>();
+            var resources = new Godot.Collections.Array<string[]>();
             using Godot.FileAccess file = Godot.FileAccess.Open(
                 filePath,
                 Godot.FileAccess.ModeFlags.Read
@@ -52,19 +92,22 @@ public partial class Conversion : Node
             // --> "using" appelle automatiquement ".Dispose()" à la fin de la fonction
             // --> Permet d'éviter automatiquement les problèmes d'utilisation des fichiers avec "Godot.FileAccess"
             // --> Dont Godot qui empêche de réimporter (ici) le fichier .csv
-            while (!file.EofReached())
+            string[] headerDatas = file.GetLine().Split(",");
+            headers.Add(headerDatas);
+            while (!file.EofReached()) // --> Permet de s'arrêter à la dernière ligne du document
             {
-                string[] resourcesDatas = file.GetLine().Split(",");
-                resources.Add(resourcesDatas);
-                GD.Print(resources);
+                string[] resourceDatas = file.GetLine().Split(",");
+                resources.Add(resourceDatas);
             }
-            // --> Permet de s'arrêter à la dernière ligne du document
+            GD.Print(headers);
+            GD.Print(resources);
+            MakeResources(headers, resources);
         }
     }
 
     public void OldFunction()
     {
-        Godot.Collections.Array<string[]> characters = new();
+        var characters = new Godot.Collections.Array<string[]>();
         using Godot.FileAccess file = Godot.FileAccess.Open(
             "uid://vunwc72f4tm1",
             Godot.FileAccess.ModeFlags.Read
@@ -90,22 +133,22 @@ public partial class Conversion : Node
             {
                 GD.Print("Access != null");
 
-                Chara chara = res as Chara;
-                chara.CharaName = s[0];
-                chara.Health = s[1].ToInt();
-                chara.Damage = s[2].ToInt();
-                ResourceSaver.Save(chara, $"res://Resources/{chara.CharaName}.tres");
+                // Chara chara = res as Chara;
+                // chara.CharaName = s[0];
+                // chara.Health = s[1].ToInt();
+                // chara.Damage = s[2].ToInt();
+                // ResourceSaver.Save(chara, $"res://Resources/{chara.CharaName}.tres");
             }
             else
             {
                 GD.Print("Access new");
-                Chara newChara = new()
-                {
-                    CharaName = s[0],
-                    Health = s[1].ToInt(),
-                    Damage = s[2].ToInt(),
-                };
-                ResourceSaver.Save(newChara, $"res://Resources/{newChara.CharaName}.tres");
+                // Chara newChara = new()
+                // {
+                //     CharaName = s[0],
+                //     Health = s[1].ToInt(),
+                //     Damage = s[2].ToInt(),
+                // };
+                // ResourceSaver.Save(newChara, $"res://Resources/{newChara.CharaName}.tres");
             }
         }
 
