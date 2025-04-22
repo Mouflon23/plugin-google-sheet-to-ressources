@@ -49,12 +49,10 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 0
-text = "https://docs.google.com/spreadsheets/d/1ZpPmcjG5N8F2Z5YbbeiXV0ZMHLNYLVPoqAtWEkp14Bs/edit?usp=sharing"
 placeholder_text = "Google Sheets Link (Share with Editor Mode)"
 
 [node name="TextEditResourceScriptUid" type="TextEdit" parent="MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 2
-text = "uid://davq4jc5mhvsc"
 placeholder_text = "Resource Script UID"

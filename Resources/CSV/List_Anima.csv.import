@@ -2,14 +2,14 @@
 
 importer="csv_translation"
 type="Translation"
-uid="uid://bk0uahetanwgr"
+uid="uid://dgtgf5q4ubuw8"
 
 [deps]
 
-files=["res://Resources/CSV/List_Anima.Name.translation", "res://Resources/CSV/List_Anima.Cost.translation", "res://Resources/CSV/List_Anima.Health.translation", "res://Resources/CSV/List_Anima.Speed.translation", "res://Resources/CSV/List_Anima.Talent Uid.translation", "res://Resources/CSV/List_Anima.Talent Description.translation", "res://Resources/CSV/List_Anima.Deck.translation"]
+files=["res://Resources/CSV/List_Anima.AnimaName.translation", "res://Resources/CSV/List_Anima.Cost.translation", "res://Resources/CSV/List_Anima.MaxHealth.translation", "res://Resources/CSV/List_Anima.AttackSpeed.translation", "res://Resources/CSV/List_Anima.TalentUid.translation", "res://Resources/CSV/List_Anima.TalentDescription.translation", "res://Resources/CSV/List_Anima.Cards.translation"]
 
 source_file="res://Resources/CSV/List_Anima.csv"
-dest_files=["res://Resources/CSV/List_Anima.Name.translation", "res://Resources/CSV/List_Anima.Cost.translation", "res://Resources/CSV/List_Anima.Health.translation", "res://Resources/CSV/List_Anima.Speed.translation", "res://Resources/CSV/List_Anima.Talent Uid.translation", "res://Resources/CSV/List_Anima.Talent Description.translation", "res://Resources/CSV/List_Anima.Deck.translation"]
+dest_files=["res://Resources/CSV/List_Anima.AnimaName.translation", "res://Resources/CSV/List_Anima.Cost.translation", "res://Resources/CSV/List_Anima.MaxHealth.translation", "res://Resources/CSV/List_Anima.AttackSpeed.translation", "res://Resources/CSV/List_Anima.TalentUid.translation", "res://Resources/CSV/List_Anima.TalentDescription.translation", "res://Resources/CSV/List_Anima.Cards.translation"]
 
 [params]
 

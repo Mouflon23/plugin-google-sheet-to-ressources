@@ -1,14 +1,4 @@
-[gd_resource type="Resource" script_class="AnimaStatsData" load_steps=2 format=3 uid="uid://bv2hjtpeccpa8"]
-
-[ext_resource type="Script" uid="uid://davq4jc5mhvsc" path="res://Resources/Resources_Scripts/AnimaStatsData.cs" id="1_bvytu"]
+[gd_resource type="Resource" format=3 uid="uid://dtdhfjvunawr0"]
 
 [resource]
-script = ExtResource("1_bvytu")
-AnimaId = "Test"
-AnimaName = ""
-Cost = 0
-MaxHealth = 0
-AttackSpeed = 1.0
-TalentUid = ""
-TalentDescription = ""
-Cards = Dictionary[String, int]({})
+script = "res://Resources/List_Anima/Test.tres"
