@@ -1,37 +1,39 @@
 using System;
+using System.Threading.Tasks;
 using Godot;
 
 [Tool]
 public partial class DockSignal : Control
 {
     [Export]
-    private Button _button;
+    private TextEdit _TextEditGoogleSheetsLink;
 
     [Export]
-    private CheckButton _checkButton;
+    private TextEdit _TextEditResourceScriptUid;
+
+    [Export]
+    private Button _buttonConvert;
 
     public override void _Ready()
     {
-        _button.Pressed += _on_button_pressed;
-        _checkButton.Toggled += _on_check_button_toggled;
+        _buttonConvert.Pressed += _on_button_convert_pressed;
     }
 
-    private void _on_button_pressed()
+    private async void _on_button_convert_pressed()
     {
-        GD.Print("Button pressed");
+        // Creation du json avec l'url Google Sheets et le Resource Script Correspondant
+        var gsheetsConnectToResource = new GsheetsConnectToResource();
+        gsheetsConnectToResource.SaveToJson(
+            _TextEditGoogleSheetsLink.Text,
+            _TextEditResourceScriptUid.Text
+        );
+
+        //Import GoogleSheets vers CSV registered in json
+        var import = new Import();
+        await import.ImportGoogleSheetsFromJson();
+
+        // Convertit tous les CSV en Resources
         var conversion = new Conversion();
         conversion.Convert();
-    }
-
-    private void _on_check_button_toggled(bool toggled_on)
-    {
-        if (toggled_on)
-        {
-            GD.Print(toggled_on);
-        }
-        else
-        {
-            GD.Print(toggled_on);
-        }
     }
 }

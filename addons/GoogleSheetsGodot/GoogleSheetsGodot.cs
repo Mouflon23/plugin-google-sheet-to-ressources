@@ -11,7 +11,12 @@ public partial class GoogleSheetsGodot : EditorPlugin
     {
         // Initialization of the plugin goes here.
         GD.Print("Plugin is activated");
-        GD.Print("Put all your csv files inside res://Resources/CSV");
+        GD.Print(
+            "Copy/Paste the link of your GoogleSheet, link share with Editor mode from your Drive."
+        );
+        GD.Print(
+            "Copy/paste the UID of your Resource Script that need to be used to generate Resource with the GoogleSheet."
+        );
         // Vérifie si le dossier Resources existe
         if (!DirAccess.DirExistsAbsolute("res://Resources"))
         {
@@ -23,7 +28,7 @@ public partial class GoogleSheetsGodot : EditorPlugin
             DirAccess.MakeDirAbsolute("res://Resources/CSV");
         }
         _dock = GD.Load<PackedScene>("uid://dvuaevc3mhlep").Instantiate<Control>();
-        AddControlToDock(DockSlot.RightBl, _dock);
+        AddControlToDock(DockSlot.LeftBr, _dock);
     }
 
     public override void _ExitTree()

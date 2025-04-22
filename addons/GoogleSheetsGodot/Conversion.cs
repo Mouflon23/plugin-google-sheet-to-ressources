@@ -1,12 +1,12 @@
 using System;
 using System.IO;
-using System.Resources;
+using System.Linq;
 using Godot;
 
 [Tool]
 public partial class Conversion : Node
 {
-    private (string[], string[]) GetCSV()
+    private (string[], string[]) GetCSV() // Get all CSV in the folder and return all file paths and all file names
     {
         string csvDirectory = "res://Resources/CSV";
         using var dir = DirAccess.Open(csvDirectory);
@@ -37,63 +37,63 @@ public partial class Conversion : Node
         return (filePaths.ToArray(), fileNames.ToArray());
     }
 
+    // Create the resource from the info contained in CSV
     private void MakeResources(
         Godot.Collections.Array<string[]> headers,
         Godot.Collections.Array<string[]> resources
     )
     {
-        foreach (string[] r in resources)
-        {
-            GD.Print($"Searching for res://Resources/{r[0]}.tres");
-            var res = ResourceLoader.Load($"res://Resources/{r[0]}.tres");
-            if (res != null)
-            {
-                GD.Print("Resource Found !");
+        // foreach (string[] r in resources)
+        // {
+        //     GD.Print($"Searching for res://Resources/{r[0]}.tres");
+        //     var res = ResourceLoader.Load($"res://Resources/{r[0]}.tres");
+        //     if (res != null)
+        //     {
+        //         GD.Print("Resource Found !");
 
-                // Chara chara = res as Chara;
-                int i = 0;
-                foreach (string[] header in headers)
-                {
-                    if (r[i] == "true" || r[i] == "false")
-                    {
-                        // chara.header = r[i].ToLower();
-                    }
-                    if (int.TryParse(r[i], out int value))
-                    {
-                        // chara.header = r[i].ToInt();
-                    }
-                    if (float.TryParse(r[i], out float floatValue))
-                    {
-                        // chara.header = r[i].ToFloat();
-                    }
-                    else
-                    {
-                        // chara.header = r[i]
-                    }
-                    i++;
-                }
-                // ResourceSaver.Save(chara, $"res://Resources/r[0].tres");
-            }
-            else
-            {
-                GD.Print("No Resource Found");
-                GD.Print("Creating Resource...");
-                int j = 0;
-                // Chara newChara = new()
-                // {
-                //     // foreach (string[] header in headers)
-                //     // {
-                //     // header = r[i];
-                //     // }
-                // };
-                // ResourceSaver.Save(newChara, $"res://Resources/{newChara.CharaName}.tres");
-            }
-        }
+        //         // Chara chara = res as Chara;
+        //         int i = 0;
+        //         foreach (string[] header in headers)
+        //         {
+        //             if (r[i] == "true" || r[i] == "false")
+        //             {
+        //                 // chara.header = r[i].ToLower();
+        //             }
+        //             if (int.TryParse(r[i], out int value))
+        //             {
+        //                 // chara.header = r[i].ToInt();
+        //             }
+        //             if (float.TryParse(r[i], out float floatValue))
+        //             {
+        //                 // chara.header = r[i].ToFloat();
+        //             }
+        //             else
+        //             {
+        //                 // chara.header = r[i]
+        //             }
+        //             i++;
+        //         }
+        //         // ResourceSaver.Save(chara, $"res://Resources/r[0].tres");
+        //     }
+        //     else
+        //     {
+        //         GD.Print("No Resource Found");
+        //         GD.Print("Creating Resource...");
+        //         // Chara newChara = new()
+        //         // {
+        //         //     CharaName = s[0],
+        //         //     Health = s[1].ToInt(),
+        //         //     Damage = s[2].ToInt(),
+        //         // };
+        //         // ResourceSaver.Save(newChara, $"res://Resources/{newChara.CharaName}.tres");
+        //     }
+        // }
     }
 
     public void Convert()
     {
         (string[] filePaths, string[] fileNames) = GetCSV();
+        int k = 0;
         foreach (string filePath in filePaths)
         {
             var headers = new Godot.Collections.Array<string[]>();
@@ -112,9 +112,11 @@ public partial class Conversion : Node
                 string[] resourceDatas = file.GetLine().Split(",");
                 resources.Add(resourceDatas);
             }
-            GD.Print(headers);
-            GD.Print(resources);
+            file.Close();
+            CreateDirectory(fileNames[k]);
+            GD.Print("fileName :" + fileNames[k]);
             MakeResources(headers, resources);
+            k++;
         }
     }
 
@@ -166,5 +168,20 @@ public partial class Conversion : Node
         }
 
         file.Close();
+    }
+
+    public void CreateDirectory(string directoryName)
+    {
+        string directoryPath = Path.Combine("res://Resources", directoryName);
+
+        if (!DirAccess.DirExistsAbsolute(directoryPath))
+        {
+            DirAccess.MakeDirRecursiveAbsolute(directoryPath);
+            GD.Print($"Le répertoire {directoryPath} a été créé avec succès.");
+        }
+        else
+        {
+            GD.Print($"Le répertoire {directoryPath} existe déjà.");
+        }
     }
 }
