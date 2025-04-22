@@ -23,17 +23,20 @@ public partial class DockSignal : Control
     {
         // Creation du json avec l'url Google Sheets et le Resource Script Correspondant
         var gsheetsConnectToResource = new GsheetsConnectToResource();
-        gsheetsConnectToResource.SaveToJson(
+        await gsheetsConnectToResource.SaveToJson(
             _TextEditGoogleSheetsLink.Text,
             _TextEditResourceScriptUid.Text
         );
+        GD.Print("Informations Saved !");
 
         //Import GoogleSheets vers CSV registered in json
         var import = new Import();
         await import.ImportGoogleSheetsFromJson();
+        GD.Print("Import Finished !");
 
         // Convertit tous les CSV en Resources
         var conversion = new Conversion();
-        conversion.Convert();
+        await conversion.Convert();
+        GD.Print("Conversion Done !");
     }
 }

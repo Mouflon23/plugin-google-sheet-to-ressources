@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnimaStatsData" load_steps=2 format=3 uid="uid://bxfen48u6aeoa"]
+
+[ext_resource type="Script" uid="uid://davq4jc5mhvsc" path="res://Resources/Resources_Scripts/AnimaStatsData.cs" id="1_vhy8x"]
+
+[resource]
+script = ExtResource("1_vhy8x")
+AnimaId = "A2Dummy"
+AnimaName = ""
+Cost = 1
+MaxHealth = 0
+AttackSpeed = 1.0
+TalentUid = ""
+TalentDescription = ""
+Cards = Dictionary[String, int]({})
