@@ -21,6 +21,9 @@ public partial class DockSignal : Control
 
     private async void _on_button_convert_pressed()
     {
+        // Make required directory
+        SetupAddons setupAddons = new();
+        setupAddons.MakeRequiredDirectory();
         // Creation du json avec l'url Google Sheets et le Resource Script Correspondant
         var gsheetsConnectToResource = new GsheetsConnectToResource();
         await gsheetsConnectToResource.SaveToJson(

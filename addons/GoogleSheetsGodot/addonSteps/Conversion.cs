@@ -9,7 +9,8 @@ using Godot;
 public partial class Conversion : Node
 {
     private string filePath = "res://Resources/sheets_connection.json";
-    JsonUtility jsonUtility = new JsonUtility();
+    JsonUtility jsonUtility = new();
+    FilesDirectoryUtility filesDirectoryUtility = new();
     private Dictionary<string, Dictionary<string, string>> dataRead;
 
     private (string[], string[]) GetCSV() // Get all CSV in the folder and return all file paths and all file names
@@ -115,10 +116,7 @@ public partial class Conversion : Node
         {
             var headers = new Godot.Collections.Array<string[]>();
             var resources = new Godot.Collections.Array<string[]>();
-            using Godot.FileAccess file = Godot.FileAccess.Open(
-                filePath,
-                Godot.FileAccess.ModeFlags.Read
-            );
+            var file = filesDirectoryUtility.ReadFile(filePath);
             // --> "using" appelle automatiquement ".Dispose()" à la fin de la fonction
             // --> Permet d'éviter automatiquement les problèmes d'utilisation des fichiers avec "Godot.FileAccess"
             // --> Dont Godot qui empêche de réimporter (ici) le fichier .csv
@@ -130,78 +128,13 @@ public partial class Conversion : Node
                 resources.Add(resourceDatas);
             }
             file.Close();
-            CreateDirectory(fileNames[k]);
+            filesDirectoryUtility.CreateDirectory(fileNames[k]);
             GD.Print("Current Directory : " + fileNames[k]);
             MakeResources(headers, resources, fileNames[k]);
             k++;
         }
 
         return Task.CompletedTask;
-    }
-
-    public void OldFunction()
-    {
-        var characters = new Godot.Collections.Array<string[]>();
-        using Godot.FileAccess file = Godot.FileAccess.Open(
-            "uid://vunwc72f4tm1",
-            Godot.FileAccess.ModeFlags.Read
-        );
-
-        // file.GetCsvLine()
-
-        file.GetLine();
-        while (!file.EofReached())
-        {
-            string[] characterDatas = file.GetLine().Split(",");
-            characters.Add(characterDatas);
-        } // --> Permet de s'arrêter à la dernière ligne du document
-
-        GD.Print(characters);
-
-        foreach (string[] s in characters)
-        {
-            GD.Print($"res://Resources/{s[0]}.tres");
-            var res = ResourceLoader.Load($"res://Resources/{s[0]}.tres");
-            GD.Print(res);
-            if (res != null)
-            {
-                GD.Print("Access != null");
-
-                // Chara chara = res as Chara;
-                // chara.CharaName = s[0];
-                // chara.Health = s[1].ToInt();
-                // chara.Damage = s[2].ToInt();
-                // ResourceSaver.Save(chara, $"res://Resources/{chara.CharaName}.tres");
-            }
-            else
-            {
-                GD.Print("Access new");
-                // Chara newChara = new()
-                // {
-                //     CharaName = s[0],
-                //     Health = s[1].ToInt(),
-                //     Damage = s[2].ToInt(),
-                // };
-                // ResourceSaver.Save(newChara, $"res://Resources/{newChara.CharaName}.tres");
-            }
-        }
-
-        file.Close();
-    }
-
-    public void CreateDirectory(string directoryName)
-    {
-        string directoryPath = Path.Combine("res://Resources", directoryName);
-
-        if (!DirAccess.DirExistsAbsolute(directoryPath))
-        {
-            DirAccess.MakeDirRecursiveAbsolute(directoryPath);
-            GD.Print($"Le répertoire {directoryPath} a été créé avec succès.");
-        }
-        else
-        {
-            GD.Print($"Le répertoire {directoryPath} existe déjà.");
-        }
     }
 
     private string GetResourceScriptPath(string directoryName)

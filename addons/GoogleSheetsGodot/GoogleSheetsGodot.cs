@@ -17,16 +17,6 @@ public partial class GoogleSheetsGodot : EditorPlugin
         GD.Print(
             "Copy/paste the UID of your Resource Script that need to be used to generate Resource with the GoogleSheet."
         );
-        // Vérifie si le dossier Resources existe
-        if (!DirAccess.DirExistsAbsolute("res://Resources"))
-        {
-            DirAccess.MakeDirAbsolute("res://Resources");
-        }
-        // Vérifie si le dossier CSV existe dans Resources
-        if (!DirAccess.DirExistsAbsolute("res://Resources/CSV"))
-        {
-            DirAccess.MakeDirAbsolute("res://Resources/CSV");
-        }
         _dock = GD.Load<PackedScene>("uid://dvuaevc3mhlep").Instantiate<Control>();
         AddControlToDock(DockSlot.LeftBr, _dock);
     }
