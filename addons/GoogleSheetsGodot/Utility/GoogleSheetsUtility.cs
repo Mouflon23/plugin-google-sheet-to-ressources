@@ -82,29 +82,33 @@ public partial class GoogleSheetsUtility : Node
 
     public string ExtractDocumentId(string sheetUrl)
     {
-        try
+        if (!string.IsNullOrEmpty(sheetUrl))
         {
-            // Nettoyer l'URL en supprimant les paramètres après ?
-            string cleanUrl = sheetUrl.Split('?')[0];
-
-            // Extraire l'ID du document
-            string[] parts = cleanUrl.Split('/');
-            for (int i = 0; i < parts.Length - 1; i++)
+            try
             {
-                if (parts[i] == "d")
-                {
-                    string documentId = parts[i + 1];
-                    return documentId;
-                }
-            }
+                // Nettoyer l'URL en supprimant les paramètres après ?
+                string cleanUrl = sheetUrl.Split('?')[0];
 
-            throw new Exception("Impossible de trouver l'ID du document dans l'URL");
+                // Extraire l'ID du document
+                string[] parts = cleanUrl.Split('/');
+                for (int i = 0; i < parts.Length - 1; i++)
+                {
+                    if (parts[i] == "d")
+                    {
+                        string documentId = parts[i + 1];
+                        return documentId;
+                    }
+                }
+
+                throw new Exception("Impossible de trouver l'ID du document dans l'URL");
+            }
+            catch (Exception e)
+            {
+                GD.PrintErr($"Erreur lors de l'extraction de l'ID: {e.Message}");
+                throw;
+            }
         }
-        catch (Exception e)
-        {
-            GD.PrintErr($"Erreur lors de l'extraction de l'ID: {e.Message}");
-            throw;
-        }
+        return null;
     }
 
     private async Task<string> DownloadCsv(string csvUrl)

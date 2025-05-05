@@ -30,6 +30,7 @@ public partial class DockSignal : Control
             _TextEditGoogleSheetsLink.Text,
             _TextEditResourceScriptUid.Text
         );
+
         GD.Print("Informations Saved !");
 
         //Import GoogleSheets vers CSV registered in json

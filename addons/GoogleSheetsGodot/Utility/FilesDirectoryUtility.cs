@@ -1,15 +1,12 @@
-using Godot;
 using System;
 using System.IO;
+using Godot;
 
 public partial class FilesDirectoryUtility : Node
 {
-    
-    public Godot.FileAccess ReadFile(string filePath) {
-        using Godot.FileAccess file = Godot.FileAccess.Open(
-                filePath,
-                Godot.FileAccess.ModeFlags.Read);
-        return file;
+    public Godot.FileAccess ReadFile(string filePath)
+    {
+        return Godot.FileAccess.Open(filePath, Godot.FileAccess.ModeFlags.Read);
     }
 
     public void CreateDirectory(string directoryName)
@@ -26,5 +23,4 @@ public partial class FilesDirectoryUtility : Node
             GD.Print($"Le répertoire {directoryPath} existe déjà.");
         }
     }
-    
 }

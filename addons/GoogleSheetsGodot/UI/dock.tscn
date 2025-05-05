@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvuaevc3mhlep"]
+[gd_scene load_steps=3 format=3 uid="uid://dvuaevc3mhlep"]
 
 [ext_resource type="Script" uid="uid://vgpc20uf16ub" path="res://addons/GoogleSheetsGodot/DockSignal.cs" id="1_h84au"]
+[ext_resource type="Texture2D" uid="uid://dbx5fhja6ynjc" path="res://addons/GoogleSheetsGodot/img/Flat_cross_icon.svg" id="2_cgmc1"]
 
 [node name="GoogleSheetsGodot" type="Control" node_paths=PackedStringArray("_TextEditGoogleSheetsLink", "_TextEditResourceScriptUid", "_buttonConvert")]
 layout_mode = 3
@@ -11,6 +12,7 @@ offset_right = -765.0
 offset_bottom = -235.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 0
 script = ExtResource("1_h84au")
 _TextEditGoogleSheetsLink = NodePath("MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TextEditGoogleSheetsLink")
 _TextEditResourceScriptUid = NodePath("MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/TextEditResourceScriptUid")
@@ -56,3 +58,25 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 2
 placeholder_text = "Resource Script UID"
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resource Name"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_icons/icon = ExtResource("2_cgmc1")

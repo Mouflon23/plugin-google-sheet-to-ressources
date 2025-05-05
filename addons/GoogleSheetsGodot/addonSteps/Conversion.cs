@@ -116,18 +116,18 @@ public partial class Conversion : Node
         {
             var headers = new Godot.Collections.Array<string[]>();
             var resources = new Godot.Collections.Array<string[]>();
-            var file = filesDirectoryUtility.ReadFile(filePath);
-            // --> "using" appelle automatiquement ".Dispose()" à la fin de la fonction
-            // --> Permet d'éviter automatiquement les problèmes d'utilisation des fichiers avec "Godot.FileAccess"
-            // --> Dont Godot qui empêche de réimporter (ici) le fichier .csv
-            string[] headerDatas = file.GetLine().Split(",");
-            headers.Add(headerDatas);
-            while (!file.EofReached()) // --> Permet de s'arrêter à la dernière ligne du document
+
+            using (var file = filesDirectoryUtility.ReadFile(filePath))
             {
-                string[] resourceDatas = file.GetLine().Split(",");
-                resources.Add(resourceDatas);
+                string[] headerDatas = file.GetLine().Split(",");
+                headers.Add(headerDatas);
+                while (!file.EofReached())
+                {
+                    string[] resourceDatas = file.GetLine().Split(",");
+                    resources.Add(resourceDatas);
+                }
             }
-            file.Close();
+
             filesDirectoryUtility.CreateDirectory(fileNames[k]);
             GD.Print("Current Directory : " + fileNames[k]);
             MakeResources(headers, resources, fileNames[k]);

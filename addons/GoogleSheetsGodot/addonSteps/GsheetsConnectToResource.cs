@@ -70,22 +70,25 @@ public partial class GsheetsConnectToResource : Node
         string documentId = googleSheetsUtility.ExtractDocumentId(googleSheetUrl);
         string sheetTitle = await googleSheetsUtility.GetSheetTitle(documentId);
 
-        existingData = jsonUtility.ReadJson();
-
-        // Ajouter ou mettre à jour la nouvelle entrée
-        existingData[sheetTitle] = new System.Collections.Generic.Dictionary<string, string>
+        if (!string.IsNullOrEmpty(documentId) && !string.IsNullOrEmpty(sheetTitle))
         {
-            { "googleSheetUrl", googleSheetUrl },
-            { "resourceScriptPath", resourceScriptUID },
-        };
+            existingData = jsonUtility.ReadJson();
 
-        // Sauvegarder le fichier mis à jour
-        string newJsonString = JsonSerializer.Serialize(
-            existingData,
-            new JsonSerializerOptions { WriteIndented = true }
-        );
+            // Ajouter ou mettre à jour la nouvelle entrée
+            existingData[sheetTitle] = new System.Collections.Generic.Dictionary<string, string>
+            {
+                { "googleSheetUrl", googleSheetUrl },
+                { "resourceScriptPath", resourceScriptUID },
+            };
 
-        jsonUtility.StoreJson(newJsonString);
+            // Sauvegarder le fichier mis à jour
+            string newJsonString = JsonSerializer.Serialize(
+                existingData,
+                new JsonSerializerOptions { WriteIndented = true }
+            );
+
+            jsonUtility.StoreJson(newJsonString);
+        }
 
         // Attendre que le fichier soit créé
         await EnsureFileExists(filePath);
